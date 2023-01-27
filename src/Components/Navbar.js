@@ -12,7 +12,7 @@ function Navbar() {
       <ul>
         {LINKS.map(item => {
           return (
-            <li>
+            <li key={item.to}>
               <Link to={item.to}>{item.text}</Link>
             </li>
           );

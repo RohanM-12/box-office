@@ -5,12 +5,14 @@ import MainPageLayout from '../Components/MainPageLayout';
 function Home() {
   const [input, updateInput] = useState('');
   const [results, setResults] = useState(null);
+  const [searchOption, setSearchOption] = useState('shows');
+  const isShowsSearch = searchOption === 'shows';
 
   const onInputChange = ev => {
     updateInput(ev.target.value);
   };
   const onSearchClick = () => {
-    apiGet(`/search/shows?q=${input}`).then(result => {
+    apiGet(`/search/${searchOption}?q=${input}`).then(result => {
       setResults(result);
     });
   };
@@ -25,25 +27,51 @@ function Home() {
     }
 
     if (results && results.length > 0) {
-      return (
-        <div>
-          {results.map(item => (
-            <div key={item.id}>{item.show.name}</div>
-          ))}
-        </div>
-      );
+      return results[0].show
+        ? results.map(item => <div key={item.show.id}>{item.show.name}</div>)
+        : results.map(item => (
+            <div key={item.person.id}>{item.person.name}</div>
+          ));
     }
     return null;
   };
 
+  const onRadioChange = ev => {
+    setSearchOption(ev.target.value);
+  };
+  console.log(searchOption);
   return (
     <MainPageLayout>
       <input
         type="text"
+        placeholder="Search for Shows/Casts"
         onKeyDown={onKeyDown}
         onChange={onInputChange}
         value={input}
       />
+      <div>
+        <label htmlFor="search-shows">
+          Shows
+          <input
+            id="search-shows"
+            type="radio"
+            value="show"
+            checked={isShowsSearch}
+            onChange={onRadioChange}
+          />
+        </label>
+        <label htmlFor="search-casts">
+          Casts
+          <input
+            id="search-casts"
+            type="radio"
+            value="people"
+            checked={!isShowsSearch}
+            onChange={onRadioChange}
+          />
+        </label>
+      </div>
+
       <button type="button" onClick={onSearchClick}>
         Search
       </button>

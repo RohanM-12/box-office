@@ -1,6 +1,8 @@
 import { React, useState } from 'react';
 import { apiGet } from '../misc/config';
 import MainPageLayout from '../Components/MainPageLayout';
+import ActorGrid from '../Components/actor/ActorGrid';
+import ShowGrid from '../Components/show/ShowGrid';
 
 function Home() {
   const [input, updateInput] = useState('');
@@ -27,11 +29,11 @@ function Home() {
     }
 
     if (results && results.length > 0) {
-      return results[0].show
-        ? results.map(item => <div key={item.show.id}>{item.show.name}</div>)
-        : results.map(item => (
-            <div key={item.person.id}>{item.person.name}</div>
-          ));
+      return results[0].show ? (
+        <ShowGrid data={results} />
+      ) : (
+        <ActorGrid data={results} />
+      );
     }
     return null;
   };
@@ -39,7 +41,7 @@ function Home() {
   const onRadioChange = ev => {
     setSearchOption(ev.target.value);
   };
-  console.log(searchOption);
+  // console.log(searchOption);
   return (
     <MainPageLayout>
       <input
@@ -61,7 +63,7 @@ function Home() {
           />
         </label>
         <label htmlFor="search-casts">
-          Casts
+          Actors
           <input
             id="search-casts"
             type="radio"

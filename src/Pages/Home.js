@@ -9,6 +9,7 @@ function Home() {
   const [results, setResults] = useState(null);
   const [searchOption, setSearchOption] = useState('shows');
   const isShowsSearch = searchOption === 'shows';
+  // useEffect(() => {}, []);
 
   const onInputChange = ev => {
     updateInput(ev.target.value);

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import MainPageLayout from '../Components/MainPageLayout';
 import ShowGrid from '../Components/show/ShowGrid';
 import { apiGet } from '../misc/config';
@@ -11,7 +12,7 @@ function Starred() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [error, setError] = useState(null);
-
+  // window.location.reload();
   useEffect(() => {
     if (starred && starred.length > 0) {
       const promises = starred.map(showId => apiGet(`/shows/${showId}`));
